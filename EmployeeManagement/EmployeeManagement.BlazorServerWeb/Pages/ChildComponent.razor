@@ -1,0 +1,116 @@
+﻿@*<input id="firstName" required="@Required" maxlength="@Maxlength" size="@Size"
+           placeholder="@Placeholder" />
+
+    @code {
+        [Parameter]
+        public string Required { get; set; } = "required";
+
+        [Parameter]
+        public string Maxlength { get; set; } = "15";
+
+        [Parameter]
+        public string Size { get; set; } = "25";
+
+        [Parameter]
+        public string Placeholder { get; set; } = "Child Component Placeholder";
+    }
+
+        OR USE ATTRIBUTE SLATTING*@
+
+@*<input id="firstName" @attributes="InputAttributes" value="@Value"/>
+
+    @code {
+        [Parameter]
+        public Dictionary<string, object> InputAttributes { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "required", "required" },
+                { "placeholder", "Child Component Placeholder" },
+                { "size", "100" },
+                { "maxlength", "15" }
+            };
+
+
+        [Parameter]
+        public string Value { get; set; } = "Child Value";
+    }*@
+
+
+@*ARBITRARY ATTRIBUTES1*@
+
+@*<input id="firstName" @attributes="InputAttributes" />
+
+    @code {
+        [Parameter]
+        public Dictionary<string, object> InputAttributes { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "placeholder", "Child Component Placeholder" }
+                    };
+    }*@
+
+
+@*ARBITRARY ATTRIBUTES2*@
+@*<input id="firstName" @attributes="InputAttributes" />
+
+    @code {
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object> InputAttributes { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "placeholder", "Child Component Placeholder" }
+                    };
+    }*@
+
+
+@*ARBITRARY ATTRIBUTES3*@
+@*<input id="firstName" placeholder="Default Placeholder" @attributes="InputAttributes" />
+
+    @code {
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object> InputAttributes { get; set; } =
+            new Dictionary<string, object>();
+    }*@
+
+
+@*CASCADING VALUES*@
+@*<h1 style="@ElementStyle">-Child Component</h1>
+
+    <GrandChildComponent></GrandChildComponent>
+
+    @code {
+        [CascadingParameter]
+        public string ElementStyle { get; set; }
+    }*@
+
+
+@*MULTIPLE CASCADING VALUES*@
+@*<h1 style="@ElementStyle">-Child Component Text. Employee Age = @EmpAge</h1>
+
+    @code {
+        [CascadingParameter]
+        public string ElementStyle { get; set; }
+
+        [CascadingParameter]
+        public int EmpAge { get; set; }
+    }*@
+
+@*MULTIPLE CASCADING VALUES2*@
+@*<h1 style="@ElementStyle; @H1Border">-Child Component Text.</h1>
+
+    @code {
+        [CascadingParameter(Name ="ColorStyle")]
+        public string ElementStyle { get; set; }
+
+        [CascadingParameter(Name ="BorderStyle")]
+        public string H1Border { get; set; }
+    }*@
+
+
+@*CASCADING PERFORMANCE*@
+<h1>Child Component Text - @Counter</h1>
+
+@code {
+    [CascadingParameter(Name = "Counter")]
+    public int Counter { get; set; }
+}

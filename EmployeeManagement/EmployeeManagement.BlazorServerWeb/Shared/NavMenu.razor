@@ -1,0 +1,49 @@
+﻿<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">EmployeeManagement.BlazorServerWeb</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/editemployee" @onclick="HandleClick" Match="NavLinkMatch.All">
+                <span class="oi oi-file" aria-hidden="true"></span> Create
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/editemployee/1" Match="NavLinkMatch.All">
+                <span class="oi oi-pencil" aria-hidden="true"></span> Edit
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@* Match="NavLinkMatch.All" >>selected style only applies if entire url matches *@
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    @inject NavigationManager NavigationManager;
+
+
+    private void HandleClick()
+    {
+        //since edit and create employee, both in same component we have to force reload to change the headertext
+        NavigationManager.NavigateTo("/editemployee", true);
+
+    }
+}

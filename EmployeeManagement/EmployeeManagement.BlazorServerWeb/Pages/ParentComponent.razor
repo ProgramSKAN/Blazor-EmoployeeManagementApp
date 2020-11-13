@@ -1,0 +1,117 @@
+﻿@page "/pc"
+@*<ChildComponent required="required" maxlength="100" size="50"
+                    placeholder="Parent Component Placeholder">
+    </ChildComponent>
+
+        OR USE ATTRIBUTE SPLATTING*@
+
+
+@*<ChildComponent InputAttributes="attributesFromParent" Value="Parent Value">
+    </ChildComponent>
+
+    @code {
+        public Dictionary<string, object> attributesFromParent { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "required", "required" },
+                { "placeholder", "Parent Component Placeholder" },
+                { "size", "50" },
+                { "maxlength", "5" }
+                };
+
+    }
+
+*@
+
+
+@*ARBITRARY ATTRIBUTES1*@
+@*
+
+        <ChildComponent InputAttributes="attributesFromParent">
+    </ChildComponent>
+
+    @code {
+        public Dictionary<string, object> attributesFromParent { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "required", "required" },
+                { "placeholder", "Parent Component Placeholder" }
+                };
+    }*@
+
+@*ARBITRARY ATTRIBUTES2*@
+@*<ChildComponent InputAttributes="attributesFromParent" maxlength="15">
+    </ChildComponent>
+
+    @code {
+        public Dictionary<string, object> attributesFromParent { get; set; } =
+            new Dictionary<string, object>()
+            {
+                { "required", "required" },
+                { "placeholder", "Parent Component Placeholder" }
+                    };
+    }*@
+
+
+@*ARBITRARY ATTRIBUTES3*@
+@*<ChildComponent placeholder="Parent Component Placeholder">
+    </ChildComponent>*@
+
+
+@*CASCADING VALUES (by default values are cascaded based on parameter type)*@
+@*<h1 style="@Style">Parent Component Text</h1>
+    <CascadingValue Value="@Style">
+        <ChildComponent>
+        </ChildComponent>
+    </CascadingValue>
+
+    @code {
+        public string Style { get; set; } = "color:red";
+    }*@
+
+
+@*MULTIPLE CASCADING VALUES1  (by default values are cascaded based on parameter type)*@
+@*<CascadingValue Value="@Style">
+        <CascadingValue Value="@EmployeeAge">
+            <ChildComponent></ChildComponent>
+        </CascadingValue>
+    </CascadingValue>
+
+    @code {
+        public string Style { get; set; } = "color:red";
+        public int EmployeeAge { get; set; } = 25;
+    }*@
+
+
+
+@*MULTIPLE CASCADING VALUES2*@
+@*<CascadingValue Value="@Style" Name="ColorStyle">
+        <CascadingValue Value="@BorderStyle" Name="BorderStyle">
+            <ChildComponent></ChildComponent>
+        </CascadingValue>
+    </CascadingValue>
+
+    @code {
+        public string Style { get; set; } = "color:red";
+        public string BorderStyle { get; set; } = "border:1px solid red";
+    }*@
+
+@*CASCADING PERFORMANCE*@
+<button class="btn btn-primary" @onclick="IncrementCounter">
+    Increment Counter
+</button>
+
+<h1>Parent Component Text - @Counter</h1>
+
+<CascadingValue Value="@Counter" Name="Counter" IsFixed="false">
+    <ChildComponent></ChildComponent>
+</CascadingValue>
+
+@code {
+    public int Counter { get; set; } = 0;
+
+    private void IncrementCounter()
+    {
+        Counter = Counter + 1;
+    }
+}
